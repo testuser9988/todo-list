@@ -161,9 +161,8 @@ class HomeController extends Controller
      * @param $request 画面情報
      * @return ToDoリスト一覧画面
      */
-    public function destroy(Request $request, $todo)
+    public function destroy($todo)
     {
-        dd($$request['search_title']);
         $todo = Todo::findOrfail($todo);
 
         $todo->delete();
