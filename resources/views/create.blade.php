@@ -49,7 +49,7 @@
 
         <div class="col-md-2">
           <select class="form-select @error('category_id') is-invalid @enderror" name="category_id" id="category">
-            <option value="">カテゴリを選択</option>
+            <option value=""></option>
             @foreach($categories as $category)
             <option value="{{ $category->id }}" @if( $category->id == old('category_id')) selected @endif>{{ $category->name }}</option>
             @endforeach
