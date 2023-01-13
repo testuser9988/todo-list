@@ -121,8 +121,4 @@
       </div>
     </div>
   </form>
-<script>
-  $('#js-pulldown').select2();
-
-</script>
   @endsection

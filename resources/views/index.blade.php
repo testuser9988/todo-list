@@ -35,14 +35,6 @@
           <label for="search_status" class="col-md-2 col-form-label font-weight-bold">状態</label>
           <div class="col-md-2 dropdown">
 
-<!--                <button class="btn btn-primary dropdown-toggle" type="button" id="search_status" data-bs-toggle="dropdown" aria-expanded="false">状態を選択</button>
-                  <ul class="dropdown-menu" aria-labelledby="search_status">
-                    <li><button class="dropdown-item" type="button" name="未着手" value="0">未着手</button></li>
-                    <li><button class="dropdown-item" type="button" name="進行中" value="1">進行中</button></li>
-                    <li><button class="dropdown-item" type="button" name="完了" value="2">完了</button></li>
-                  </ul>
--->
-
             <select class="form-select" name="search_status" id="search_status">
               <option selected value=""></option>
               <option @if("0" == old('search_status', Session::get('search_status'))) selected @endif value="0">未着手</option>
@@ -113,26 +105,7 @@
                     <td class="align-middle">{{ $loop->index+1 }}</td>
                     <td class="align-middle">
                       <a href='{{ route('reference', ['todo' => $todo->id]) }}' class="text-decoration-none link-primary" > {{ $todo->title }}</a>
-                      {{-- <a href="javascript:void(0)" tabindex="0"  data-bs-container="body" data-bs-toggle="popover"  data-bs-placement="top" data-bs-content="{{ $todo->content }}">{{ $todo->title }}</a> --}}
-                      {{-- <a href="javascript:void(0)" class="text-decoration-none link-primary" data-bs-todoTitle={{ $todo->title }} data-bs-todoContent={{ $todo->content }} data-bs-toggle="modal" data-bs-target="#referenceModal"> {{ $todo->title }}</a> --}}
                     </td>
-
-                    <!-- Todo内容確認モーダル -->
-                    {{-- <div class="modal fade" id="referenceModal" tabindex="-1" aria-labelledby="referenceModalLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-todoTitle" id="referenceModalLabel"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-todoContent">
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div> --}}
 
                     <td class="align-middle">{{ $todo->category->name }}</td>
                     <td class="align-middle">
@@ -145,7 +118,7 @@
                     <td class="align-middle">{{ $todo->time_limit }}</td>
                     <td class="align-middle">
                       <div class="row">
-                      <form action="{{ route('destroy', ['todo' => $todo->id])}}" method="POST" >
+                      <form action="{{ route('destroy', ['todo' => $todo->id])}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('DELETE')
 
@@ -155,31 +128,6 @@
                       <button type="submit" class="btn btn-danger" onclick='return confirm("削除してもよろしいですか？");'>
                         <i class="fas fa-trash"></i>
                       </button>
-
-                      {{-- <form action="" method="POST" name="deleteForm">
-
-                        <button type="button" class="btn btn-danger" data-bs-title={{ $todo->title }} data-bs-id={{ $todo->id }} data-bs-toggle="modal" data-bs-target="#deleteModal">
-                            <i class="fas fa-trash"></i>
-                          </button>
-
-                        <!-- 削除用モーダル -->
-                        <div class="modal fade " id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                          <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel">確認</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div>
-                              <div class="modal-body">
-                              </div>
-                              <div class="modal-footer">
-                                <button type="submit" class="btn btn-danger">削除</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div> --}}
-
 
                       </form>
                     </div>
@@ -209,37 +157,6 @@
             $("#search_time_limit").val("");
           });
     });
-
-//     // 削除ボタン押下時
-//     const deleteModal = document.getElementById('deleteModal')
-//     deleteModal.addEventListener('show.bs.modal', event => {
-//       // モーダルを起動するボタン
-//       const button = event.relatedTarget
-//       // data-bs-* 属性から情報を抽出
-//       const recipient = button.getAttribute('data-bs-title')
-
-//       const id = button.getAttribute('data-bs-id')
-
-// alert(id)
-// const deleteForm = document.getElementById("deleteForm");
-
-
-//       // モーダルの内容を更新
-//       const modalBody = deleteModal.querySelector('.modal-body')
-//       modalBody.textContent = '「' + recipient + '」' + ' を削除してもよろしいですか？';
-
-//       deleteForm.action = "{{ route('destroy', ['todo' =>" + id + "])}}";
-
-//       deleteForm.submit();
-//     })
-// function deleteConfirm(title) {
-
-//     if (window.confirm(title + "を削除してもよろしいですか？")) {
-//       // location.href = "hoge.php";
-//     } else {
-//       return false;
-//     }
-//   }
 
     </script>
 @endsection
