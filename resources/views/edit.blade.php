@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- フォーム -->
-<form action="{{ route('update', ['todo' => $todo->id])}}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('update', ['id' => $todo->id])}}" method="POST" enctype="multipart/form-data">
   @csrf
   @method('PUT')
   <div class="py-2">
@@ -112,7 +112,7 @@
             </button>
           </div>
           <div class="col-md-2 ">
-            <button type="button" class="btn btn-secondary" style="width:120px" onclick="location.href='/'">
+            <button type="button" class="btn btn-secondary" style="width:120px" onclick="location.href='/back'">
               <i class="fas fa-arrow-alt-circle-left"></i>
               戻る
             </button>

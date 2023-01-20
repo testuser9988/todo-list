@@ -69,7 +69,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-11 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-secondary" style="width:120px" onclick="location.href='/'">
+            <button type="button" class="btn btn-secondary" style="width:120px" onclick="location.href='/back'">
               <i class="fas fa-arrow-alt-circle-left"></i>
               戻る
             </button>

@@ -90,7 +90,7 @@
             </button>
           </div>
           <div class="col-md-2 ">
-            <button type="button" class="btn btn-secondary" style="width:120px" onclick="location.href='/'">
+            <button type="button" class="btn btn-secondary"  style="width:120px" onclick="location.href='/back'">
               <i class="fas fa-arrow-alt-circle-left"></i>
               戻る
             </button>

@@ -29,12 +29,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        session()->forget('search_title');
-        session()->forget('search_category_id');
-        session()->forget('search_status');
-        session()->forget('search_time_limit');
+        session()->put('search_title', "");
+        session()->put('search_category_id', "");
+        session()->put('search_status', "");
+        session()->put('search_time_limit_from', "");
+        session()->put('search_time_limit_to', "");
 
-        $todos = Todo::orderBy('time_limit', 'asc')
+        $todos = Todo::orderBy('time_limit', 'ASC')
         ->where('user_id', '=', \Auth::id())
         ->paginate(10);
         $categories = Category::all();
@@ -82,43 +83,51 @@ class HomeController extends Controller
     public function show(Request $request)
     {
 
+        // 検索条件
         $title = $request['search_title'];
-
         $category_id = $request['search_category_id'];
         $status = $request['search_status'];
-        $time_limit = $request['search_time_limit'];
+        $time_limit_from = $request['search_time_limit_from'];
+        $time_limit_to = $request['search_time_limit_to'];
 
         // 値を保存
-        $request->session()->put('search_title', $title);
-        $request->session()->put('search_category_id', $category_id);
-        $request->session()->put('search_status', $status);
-        $request->session()->put('search_time_limit', $time_limit);
+        session()->put('search_title', $title);
+        session()->put('search_category_id', $category_id);
+        session()->put('search_status', $status);
+        session()->put('search_time_limit_from', $time_limit_from);
+        session()->put('search_time_limit_to', $time_limit_to);
 
         $query = Todo::query();
 
         // 検索条件.タイトルが入力されている場合
-        if (!is_null($title)) {
+        if (!empty($title)) {
+
             $query->where('title', 'LIKE', "%{$title}%");
         }
 
         // 検索条件.カテゴリが入力されている場合
-        if (!is_null($category_id)) {
+        if (!empty($category_id)) {
             $query->where('category_id', '=', $category_id);
         }
 
         // 検索条件.状態が入力されている場合
-        if (!is_null($status)) {
+        if (!empty($status)) {
             $query->where('status', '=', $status);
         }
 
-        // 検索条件.期限が入力されている場合
-        if (!is_null($time_limit)) {
-            $query->where('time_limit', '<=', $time_limit);
+        // 検索条件.期限Fromが入力されている場合
+        if (!empty($time_limit_from)) {
+            $query->where('time_limit', '>=', $time_limit_from);
+        }
+
+        // 検索条件.期限Toが入力されている場合
+        if (!empty($time_limit_to)) {
+            $query->where('time_limit', '<=', $time_limit_to);
         }
 
         $query->where('user_id', '=', \Auth::id());
 
-        $query->orderBy('updated_at', 'DESC')->simplePaginate(10);
+        $query->orderBy('time_limit', 'ASC')->simplePaginate(10);
 
         $todos = $query->paginate(10);
 
@@ -129,11 +138,12 @@ class HomeController extends Controller
 
     /**
      * ToDo更新画面表示
-     * @param $request 画面情報
+     * @param $id 選択されたToDoのID
      * @return ToDoリスト一覧画面
      */
-    public function edit(Todo $todo)
+    public function edit($id)
     {
+        $todo = Todo::findOrfail($id);
         $categories = Category::all();
 
         return view('edit', ['todo' => $todo, 'categories' => $categories]);
@@ -142,6 +152,7 @@ class HomeController extends Controller
     /**
      * ToDo更新
      * @param $request 画面情報
+     * @param $id 選択されたToDoのID
      * @return ToDoリスト一覧画面
      */
     public function update(UpdateTodoRequest $request, $id)
@@ -158,29 +169,84 @@ class HomeController extends Controller
 
     /**
      * ToDo削除
-     * @param $request 画面情報
+     * @param $id 選択されたToDoのID
      * @return ToDoリスト一覧画面
      */
-    public function destroy($todo)
+    public function destroy($id)
     {
-        $todo = Todo::findOrfail($todo);
-
+        $todo = Todo::findOrfail($id);
         $todo->delete();
 
         return to_route('show')->with('success', 'ToDoを削除しました');
     }
 
     /**
-     * ToDo確認
-     * @param $request 画面情報
-     * @return ToDo確認画面
+     * ToDo参照
+     * @param $id 選択されたToDoのID
+     * @return ToDo参照画面
      */
-    public function reference(Todo $todo)
+    public function reference($id)
     {
+        $todo = Todo::findOrfail($id);
         $categories = Category::all();
 
         return view('reference', ['todo' => $todo, 'categories' => $categories]);
     }
+
+    /**
+     * 戻るボタン押下時
+     * @param $request 画面情報
+     * @return ToDoリスト一覧画面
+     */
+    public function back(Request $request)
+    {
+
+        $title = $request->session()->get('search_title');
+        $category_id = $request->session()->get('search_category_id');
+        $status = $request->session()->get('search_status');
+        $time_limit_from = $request->session()->get('search_time_limit_from');
+        $time_limit_to = $request->session()->get('search_time_limit_to');
+
+        $query = Todo::query();
+
+        // 検索条件.タイトルが入力されている場合
+        if (!empty($title)) {
+
+            $query->where('title', 'LIKE', "%{$title}%");
+        }
+
+        // 検索条件.カテゴリが入力されている場合
+        if (!empty($category_id)) {
+            $query->where('category_id', '=', $category_id);
+        }
+
+        // 検索条件.状態が入力されている場合
+        if (!empty($status)) {
+            $query->where('status', '=', $status);
+        }
+
+        // 検索条件.期限Fromが入力されている場合
+        if (!empty($time_limit_from)) {
+            $query->where('time_limit', '>=', $time_limit_from);
+        }
+
+        // 検索条件.期限Toが入力されている場合
+        if (!empty($time_limit_to)) {
+            $query->where('time_limit', '<=', $time_limit_to);
+        }
+
+        $query->where('user_id', '=', \Auth::id());
+
+        $query->orderBy('updated_at', 'DESC')->simplePaginate(10);
+
+        $todos = $query->paginate(10);
+
+        $categories = Category::all();
+
+        return view('index', ['todos' => $todos], compact('categories'));
+
+    }
+
     /**
      * ユーザーをアプリケーションからログアウトさせる
      *

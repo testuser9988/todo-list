@@ -48,9 +48,15 @@
         <div class="form-groupp b-4 row">
           <label for="search_time_limit" class="col-md-2 col-form-label font-weight-bold">期限</label>
           <div class="col-md-2">
-            <input type="date" class="form-control " name="search_time_limit" id="search_time_limit" value="{{ old('search_time_limit', Session::get('search_time_limit')) }}">
+            <input type="date" class="form-control " name="search_time_limit_from" id="search_time_limit_from" value="{{ old('search_time_limit_from', Session::get('search_time_limit_from')) }}">
+          </div>
+          ～
+          <div class="col-md-2">
+            <input type="date" class="form-control " name="search_time_limit_to" id="search_time_limit_to" value="{{ old('search_time_limit_to', Session::get('search_time_limit_to')) }}">
           </div>
         </div>
+
+
 
         <!-- 検索ボタン、クリアボタン -->
         <div class="row justify-content-end">
@@ -104,7 +110,7 @@
                   <tr>
                     <td class="align-middle">{{ $loop->index+1 }}</td>
                     <td class="align-middle">
-                      <a href='{{ route('reference', ['todo' => $todo->id]) }}' class="text-decoration-none link-primary" > {{ $todo->title }}</a>
+                      <a href='{{ route('reference', ['id' => $todo->id]) }}' class="text-decoration-none link-primary" > {{ $todo->title }}</a>
                     </td>
 
                     <td class="align-middle">{{ $todo->category->name }}</td>
@@ -118,11 +124,11 @@
                     <td class="align-middle">{{ $todo->time_limit }}</td>
                     <td class="align-middle">
                       <div class="row">
-                      <form action="{{ route('destroy', ['todo' => $todo->id])}}" method="POST" enctype="multipart/form-data">
+                      <form action="{{ route('destroy', ['id' => $todo->id])}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('DELETE')
 
-                      <button type="button" class="btn btn-primary" onclick="location.href='{{ route('edit', ['todo' => $todo->id]) }}'">
+                      <button type="button" class="btn btn-primary" onclick="location.href='{{ route('edit', ['id' => $todo->id]) }}'">
                         <i class="fa-solid fa-pen-to-square"></i>
                       </button>
                       <button type="submit" class="btn btn-danger" onclick='return confirm("削除してもよろしいですか？");'>
@@ -154,7 +160,8 @@
             $("#search_title").val("");
             $("#search_category").val("");
             $("#search_status").val("");
-            $("#search_time_limit").val("");
+            $("#search_time_limit_from").val("");
+            $("#search_time_limit_to").val("");
           });
     });
 

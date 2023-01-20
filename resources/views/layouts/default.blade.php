@@ -28,14 +28,6 @@
       </li>
     </ul>
 
-
-
-  {{-- <div class="float-end ">
-    <a href='/logout' class="link-info">ログアウト</a>
-  </div> --}}
-  {{-- <div class="float-end mx-4">
-    <a href='{{ route('users') }}' class="link-secondary">退会</a>
-  </div> --}}
 </div>
 <div class="pt-3 container">
   @if (session('success'))
