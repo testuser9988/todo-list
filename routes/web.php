@@ -22,6 +22,7 @@ Route::get('/', [HomeController::class, 'index'])->name('index')->middleware('au
 Route::get('/home', [HomeController::class, 'index'])->name('index')->middleware('auth');
 Route::post('/store', [HomeController::class, 'store'])->name('store')->middleware('auth');
 Route::get('/create', [HomeController::class, 'create'])->name('create')->middleware('auth');
+Route::post('/show', [HomeController::class, 'show'])->name('show')->middleware('auth');
 Route::get('/show', [HomeController::class, 'show'])->name('show')->middleware('auth');
 Route::get('/edit/{id}', [HomeController::class, 'edit'])->name('edit')->middleware('auth');
 Route::put('/edit/{id}', [HomeController::class, 'update'])->name('update')->middleware('auth');
