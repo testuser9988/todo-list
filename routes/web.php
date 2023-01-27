@@ -29,8 +29,6 @@ Route::put('/edit/{id}', [HomeController::class, 'update'])->name('update')->mid
 Route::delete('/delete/{id}', [HomeController::class, 'destroy'])->name('destroy')->middleware('auth');
 Route::get('/reference/{id}', [HomeController::class, 'reference'])->name('reference')->middleware('auth');
 Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
-
 Route::get('/back', [HomeController::class, 'back'])->name('back')->middleware('auth');
-
 Route::get('/users', [UsersController::class, 'delete'])->name('users');
 Route::delete('/users/delete', [UsersController::class, 'destroy'])->name('users.destroy')->middleware('auth');

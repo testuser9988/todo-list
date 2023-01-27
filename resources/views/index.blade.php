@@ -57,7 +57,6 @@
         </div>
 
 
-
         <!-- 検索ボタン、クリアボタン -->
         <div class="row justify-content-end">
           <div class="col-md-3">

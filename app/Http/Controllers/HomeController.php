@@ -90,8 +90,6 @@ class HomeController extends Controller
         $time_limit_from = $request['search_time_limit_from'];
         $time_limit_to = $request['search_time_limit_to'];
 
-        //dd($request['search_time_limit_from']);
-
         // 値を保存
         session()->put('search_title', $title);
         session()->put('search_category_id', $category_id);
@@ -103,7 +101,6 @@ class HomeController extends Controller
 
         // 検索条件.タイトルが入力されている場合
         if ($title != null && $title != "") {
-
             $query->where('title', 'LIKE', "%{$title}%");
         }
 
@@ -160,6 +157,7 @@ class HomeController extends Controller
     public function update(UpdateTodoRequest $request, $id)
     {
         $todo = Todo::findOrfail($id);
+        // 入力チェック
         $updateData =$request->validated();
 
         $todo->category()->associate($updateData['category_id']);
@@ -203,19 +201,17 @@ class HomeController extends Controller
     public function back(Request $request)
     {
 
+        // 検索条件
         $title = $request->session()->get('search_title');
         $category_id = $request->session()->get('search_category_id');
         $status = $request->session()->get('search_status');
         $time_limit_from = $request->session()->get('search_time_limit_from');
         $time_limit_to = $request->session()->get('search_time_limit_to');
 
-        //dd($request->session()->get('search_time_limit_from'));
-
         $query = Todo::query();
 
         // 検索条件.タイトルが入力されている場合
         if ($title != null && $title != "") {
-
             $query->where('title', 'LIKE', "%{$title}%");
         }
 
