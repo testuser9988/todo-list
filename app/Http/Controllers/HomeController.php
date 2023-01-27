@@ -90,6 +90,8 @@ class HomeController extends Controller
         $time_limit_from = $request['search_time_limit_from'];
         $time_limit_to = $request['search_time_limit_to'];
 
+        //dd($request['search_time_limit_from']);
+
         // 値を保存
         session()->put('search_title', $title);
         session()->put('search_category_id', $category_id);
@@ -100,28 +102,28 @@ class HomeController extends Controller
         $query = Todo::query();
 
         // 検索条件.タイトルが入力されている場合
-        if (!empty($title)) {
+        if ($title != null && $title != "") {
 
             $query->where('title', 'LIKE', "%{$title}%");
         }
 
         // 検索条件.カテゴリが入力されている場合
-        if (!empty($category_id)) {
+        if ($category_id != null && $category_id != "") {
             $query->where('category_id', '=', $category_id);
         }
 
         // 検索条件.状態が入力されている場合
-        if (!empty($status)) {
+        if ($status != null && $status != "") {
             $query->where('status', '=', $status);
         }
 
         // 検索条件.期限Fromが入力されている場合
-        if (!empty($time_limit_from)) {
+        if ($time_limit_from != null && $time_limit_from != "") {
             $query->where('time_limit', '>=', $time_limit_from);
         }
 
         // 検索条件.期限Toが入力されている場合
-        if (!empty($time_limit_to)) {
+        if ($time_limit_to != null && $time_limit_to != "") {
             $query->where('time_limit', '<=', $time_limit_to);
         }
 
@@ -207,31 +209,33 @@ class HomeController extends Controller
         $time_limit_from = $request->session()->get('search_time_limit_from');
         $time_limit_to = $request->session()->get('search_time_limit_to');
 
+        //dd($request->session()->get('search_time_limit_from'));
+
         $query = Todo::query();
 
         // 検索条件.タイトルが入力されている場合
-        if (!empty($title)) {
+        if ($title != null && $title != "") {
 
             $query->where('title', 'LIKE', "%{$title}%");
         }
 
         // 検索条件.カテゴリが入力されている場合
-        if (!empty($category_id)) {
+        if ($category_id != null && $category_id != "") {
             $query->where('category_id', '=', $category_id);
         }
 
         // 検索条件.状態が入力されている場合
-        if (!empty($status)) {
+        if ($status != null && $status != "") {
             $query->where('status', '=', $status);
         }
 
         // 検索条件.期限Fromが入力されている場合
-        if (!empty($time_limit_from)) {
+        if ($time_limit_from != null && $time_limit_from != "") {
             $query->where('time_limit', '>=', $time_limit_from);
         }
 
         // 検索条件.期限Toが入力されている場合
-        if (!empty($time_limit_to)) {
+        if ($time_limit_to != null && $time_limit_to != "") {
             $query->where('time_limit', '<=', $time_limit_to);
         }
 
