@@ -237,7 +237,7 @@ class HomeController extends Controller
 
         $query->where('user_id', '=', \Auth::id());
 
-        $query->orderBy('updated_at', 'DESC')->simplePaginate(10);
+        $query->orderBy('time_limit', 'ASC')->simplePaginate(10);
 
         $todos = $query->paginate(10);
 
